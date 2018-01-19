@@ -11,7 +11,7 @@ public class Conversion extends BaseObservable {
 
     private String yen;
     private String euros;
-    private Double transit;
+    private Double rate = 135.869324;
 
     public Conversion() {
 
@@ -20,8 +20,7 @@ public class Conversion extends BaseObservable {
     public Conversion(String euros) {
         this.euros = euros;
 
-        this.transit = Double.parseDouble(this.euros) * 135.869324;
-        this.yen = String.valueOf(this.transit);
+        this.yen = String.valueOf(Double.parseDouble(this.euros) * rate);
     }
 
     @Bindable
@@ -42,13 +41,19 @@ public class Conversion extends BaseObservable {
     }
 
     public Conversion setEuros(String euros) {
-        this.euros = euros;
 
-        this.transit = Double.parseDouble(this.euros) * 135.869324;
-        this.yen = String.valueOf(transit);
+        if(! euros.equals("")) {
+            this.euros = euros;
+            this.yen = String.valueOf(Double.parseDouble(this.euros) * rate);
+        } else {
+            this.euros = String.valueOf(0);
+            this.yen = String.valueOf(0.0);
+        }
+
 
         notifyPropertyChanged(BR.euros);
         notifyPropertyChanged(BR.yen);
         return this;
+
     }
 }
